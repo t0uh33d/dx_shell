@@ -39,6 +39,9 @@ class _DxShellState extends State<DxShell> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    if (widget.dxShellController._containsNullWidget) {
+      throw ('Make sure the node widgets aren\'t null when attaching the controller to the shell');
+    }
     tabController = TabController(
       length: widget.dxShellController.nodes.length,
       vsync: this,
@@ -76,7 +79,7 @@ class _DxShellState extends State<DxShell> with TickerProviderStateMixin {
       dragStartBehavior: widget.dragStartBehavior,
       viewportFraction: widget.viewportFraction,
       clipBehavior: widget.clipBehavior,
-      children: widget.dxShellController._nodeWidgets,
+      children: List<Widget>.from(widget.dxShellController._nodeWidgets),
     );
   }
 }

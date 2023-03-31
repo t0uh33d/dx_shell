@@ -21,7 +21,7 @@ class DxShellController extends ChangeNotifier {
   late List<DxNode> nodes;
 
   // _nodeWidgets & _nodeNames are seprated from the DxNode array for further code requirements
-  final List<Widget> _nodeWidgets = [];
+  final List<Widget?> _nodeWidgets = [];
   final Set<String> _nodeNames = {};
 
   /// the name of the current active node that might be received from the browser URL
@@ -59,6 +59,7 @@ class DxShellController extends ChangeNotifier {
   /// For a root shell to lookup and update the path it takes O(N) time,
   final int? pathPosition;
   late TrieEngine? trieEngine;
+  bool _containsNullWidget = false;
 
   DxShellController({
     required this.nodes,
@@ -136,10 +137,10 @@ class DxShellController extends ChangeNotifier {
   void _separateNodeData() {
     for (int idx = 0; idx < nodes.length; idx++) {
       if (nodes[idx].widget == null) {
-        throw ('Make sure the node widgets aren\'t null when attaching the controller to the shell');
+        _containsNullWidget = true;
       }
       _nodeNames.add(nodes[idx].name);
-      _nodeWidgets.add(nodes[idx].widget!);
+      _nodeWidgets.add(nodes[idx].widget);
     }
   }
 
