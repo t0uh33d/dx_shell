@@ -1,6 +1,6 @@
 name: dx_shell
-description: A new Flutter package project.
-version: 0.0.1
+description: A Flutter package that facilitates easy and efficient navigation between pages on Flutter web, while also updating the URL and fixing any incorrect or mistyped search bar entries.
+version: 1.0.0
 homepage:
 
 environment:
