@@ -6,10 +6,10 @@ class DxShellObserver extends StatelessWidget {
   final DxShellController dxShellController;
   final DxTabBuilder builder;
   const DxShellObserver({
-    super.key,
+    Key? key,
     required this.dxShellController,
     required this.builder,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
