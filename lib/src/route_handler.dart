@@ -3,8 +3,9 @@
 import 'dart:js' if (dart.library.io) 'dummy_js.dart' as js;
 
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 
-class RouteHandler {
+class RouteHandler extends ChangeNotifier {
   static final RouteHandler _routeHandler = RouteHandler._internal();
 
   factory RouteHandler() => _routeHandler;
@@ -12,6 +13,8 @@ class RouteHandler {
   RouteHandler._internal();
 
   final Map<String, String> _urlFixQue = {};
+
+  String currenPATH = '';
 
   /// this is faster than the switch tabs methods only use when you are sure that you
   /// are either going to append or replace the last path in the browser URL
@@ -62,7 +65,7 @@ class RouteHandler {
   /// ONLY WORKS FOR WEB
   /// Fixes the browser's mistyped URL paths
   void fixUrl() {
-    if (_urlFixQue.isEmpty || kIsWeb) return;
+    if (_urlFixQue.isEmpty || !kIsWeb) return;
     String currentLocation = _getCurrentPath();
     List<String> paths = currentLocation.split('/');
     for (int idx = 0; idx < paths.length; idx++) {
@@ -87,6 +90,10 @@ class RouteHandler {
 
   void _updateState(String curr) {
     if (!kIsWeb) return;
+    currenPATH = curr;
+    if (hasListeners) {
+      notifyListeners();
+    }
     (js.context['history'] as js.JsObject)
         .callMethod('replaceState', [null, '', curr]);
   }

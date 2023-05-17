@@ -1,44 +1,32 @@
-library dx_shell;
+part of dx_shell;
 
-import 'package:autocorrect_and_autocomplete_engine/autocorrect_and_autocomplete_engine.dart';
-import 'package:dx_shell/src/route_handler.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-part 'controller.dart';
-part 'node.dart';
-part 'observer.dart';
-part 'dx_page_view.dart';
-
-class DxShell extends StatefulWidget {
+class DxPageView extends StatefulWidget {
   final DxShellController dxShellController;
   final Duration? animationDuration;
   final ScrollPhysics physics;
   final DragStartBehavior dragStartBehavior;
-  final double viewportFraction;
+
   final Clip clipBehavior;
   final List<Widget>? children;
   final bool force;
 
-  const DxShell({
+  const DxPageView({
     Key? key,
     required this.dxShellController,
     this.animationDuration,
     this.physics = const NeverScrollableScrollPhysics(),
     this.dragStartBehavior = DragStartBehavior.start,
-    this.viewportFraction = 1.0,
     this.clipBehavior = Clip.hardEdge,
     this.children,
     this.force = false,
   }) : super(key: key);
 
   @override
-  State<DxShell> createState() => _DxShellState();
+  State<DxPageView> createState() => _DxPageViewState();
 }
 
-class _DxShellState extends State<DxShell> with TickerProviderStateMixin {
-  late TabController tabController;
+class _DxPageViewState extends State<DxPageView> with TickerProviderStateMixin {
+  late PageController pageController;
 
   @override
   void initState() {
@@ -55,16 +43,14 @@ class _DxShellState extends State<DxShell> with TickerProviderStateMixin {
       widget.dxShellController._addNodeWidgets(widget.children!);
     }
 
-    tabController = TabController(
-      length: widget.dxShellController.nodes.length,
-      vsync: this,
-      initialIndex: widget.dxShellController.currIndex,
+    pageController = PageController(
+      initialPage: widget.dxShellController.currIndex,
     );
 
-    widget.dxShellController._setTabController(tabController);
+    widget.dxShellController._setPageViewController(pageController);
 
     if (widget.physics is! NeverScrollableScrollPhysics) {
-      tabController.addListener(_scrollChangeListener);
+      pageController.addListener(_scrollChangeListener);
     }
 
     super.initState();
@@ -73,15 +59,15 @@ class _DxShellState extends State<DxShell> with TickerProviderStateMixin {
   @override
   void dispose() {
     if (widget.physics is! NeverScrollableScrollPhysics) {
-      tabController.removeListener(_scrollChangeListener);
+      pageController.removeListener(_scrollChangeListener);
     }
 
-    tabController.dispose();
+    pageController.dispose();
     super.dispose();
   }
 
   void _scrollChangeListener() {
-    widget.dxShellController.animateToNode(tabController.index);
+    widget.dxShellController.animateToNode(pageController.page!.toInt());
   }
 
   @override
@@ -89,11 +75,11 @@ class _DxShellState extends State<DxShell> with TickerProviderStateMixin {
     if (widget.force && widget.children != null) {
       widget.dxShellController._addNodeWidgets(widget.children!);
     }
-    return TabBarView(
-      controller: tabController,
+    return PageView(
+      controller: pageController,
       physics: widget.physics,
       dragStartBehavior: widget.dragStartBehavior,
-      viewportFraction: widget.viewportFraction,
+      onPageChanged: (value) {},
       clipBehavior: widget.clipBehavior,
       children: List<Widget>.from(widget.dxShellController._nodeWidgets!),
     );

@@ -21,13 +21,15 @@ class DxShellController extends ChangeNotifier {
   late List<DxNode> nodes;
 
   // _nodeWidgets & _nodeNames are seprated from the DxNode array for further code requirements
-  final List<Widget?> _nodeWidgets = [];
+  List<Widget?>? _nodeWidgets;
   final Set<String> _nodeNames = {};
 
   /// the name of the current active node that might be received from the browser URL
   /// when the app is launched
   String? activeNode;
   TabController? _tabController;
+  PageController? _pageController;
+
   int currIndex = -1;
 
   /// Fixes the broken paths of the URL
@@ -75,6 +77,9 @@ class DxShellController extends ChangeNotifier {
   void _setTabController(TabController tabController) =>
       _tabController = tabController;
 
+  void _setPageViewController(PageController pageController) =>
+      _pageController = pageController;
+
   void _initialize() {
     if (nodes.length < 2) throw 'Length should be greater or equal to 2';
     _separateNodeData();
@@ -116,6 +121,7 @@ class DxShellController extends ChangeNotifier {
   }) {
     _switchTab(index);
     _tabController?.animateTo(currIndex);
+    _pageController?.jumpToPage(currIndex);
   }
 
   void _switchTab(int index) {
@@ -140,8 +146,16 @@ class DxShellController extends ChangeNotifier {
         _containsNullWidget = true;
       }
       _nodeNames.add(nodes[idx].name);
-      _nodeWidgets.add(nodes[idx].widget);
+      _nodeWidgets?.add(nodes[idx].widget);
     }
+  }
+
+  void _addNodeWidgets(List<Widget> nodeWidgets) {
+    if (!_containsNullWidget) {
+      _nodeWidgets?.clear();
+    }
+
+    _nodeWidgets = nodeWidgets;
   }
 
   bool _isIndexValid(int idx, Set<String> arr) =>
