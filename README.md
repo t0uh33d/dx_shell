@@ -1,3 +1,5 @@
+**NOTE :  THIS CONTAINS A LITE VERSION OF DX_SHELL WITHOUT THE DEPENDANCY ON GO_ROUTER**
+
 The 'dx_shell' package for Flutter is designed to provide convenient and efficient control of the side navigation bar and main page for Flutter web applications. With this package, users can easily switch between pages by clicking on different options in the navigation bar, without the need for page reloads or navigating to new pages. Additionally, the package updates the URL to reflect the current page selection, which enables users to easily bookmark and share specific pages with others. If a user types an incorrect URL path in the browser search bar, the package auto-corrects the option and navigates the user to the appropriate page, fixing any typos in the process. Overall, the 'dx_shell' package enhances the user experience and makes navigation within Flutter web applications more intuitive and user-friendly.
 
 Documentation will be added soon, meanwhile try out the example [here](https://pub.dev/packages/dx_shell/example)
