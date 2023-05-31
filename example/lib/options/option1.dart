@@ -10,6 +10,6 @@ class Option1 extends StatefulWidget {
 class _Option1State extends State<Option1> {
   @override
   Widget build(BuildContext context) {
-    return const Text('option 1');
+    return const Center(child: Text('option 1'));
   }
 }

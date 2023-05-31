@@ -2,6 +2,7 @@ import 'package:dx_shell/dx_shell.dart';
 import 'package:example/nav_bar.dart';
 import 'package:example/options/option1.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'options/option2.dart';
 import 'options/option3.dart';
@@ -41,11 +42,27 @@ class _NavMenuState extends State<NavMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DxShell Example'),
+        title: const Text(
+          'DxShell Example',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.deepPurple,
       ),
       bottomNavigationBar: NavBar(dxShellController: dxShellController),
       body: DxShell(
         dxShellController: dxShellController,
+      ),
+      floatingActionButton: FloatingActionButton.large(
+        onPressed: () {
+          context.go(
+              '/${dxShellController.activeNode}/nesting/nav-option-1/sub-nav-option-1');
+        },
+        child: const Text(
+          'Nesting example',
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

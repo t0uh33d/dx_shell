@@ -21,7 +21,7 @@ class DxShellController extends ChangeNotifier {
   late List<DxNode> nodes;
 
   // _nodeWidgets & _nodeNames are seprated from the DxNode array for further code requirements
-  List<Widget?>? _nodeWidgets;
+  List<Widget?>? _nodeWidgets = [];
   final Set<String> _nodeNames = {};
 
   /// the name of the current active node that might be received from the browser URL
