@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_web_libraries_in_flutter
 
+import 'package:dx_shell/dx_shell.dart';
 import 'package:example/nav_menu.dart';
 import 'package:example/nesting/nesting_example_ui.dart';
 import 'package:example/web_inititalizer.dart';
@@ -51,28 +52,16 @@ class AppRouter {
         },
         routes: [
           GoRoute(
-            path: 'nesting',
+            path: 'nesting/:navOption/:subNavOption',
             parentNavigatorKey: _rootNavigatorKey,
             builder: (context, state) {
-              return const NestingExample(
-                navOption: null,
-                subNavOption: null,
+              String? selectedNavOption = state.params['navOption'];
+              String? selectedSubNavOption = state.params['subNavOption'];
+              return NestingExample(
+                navOption: selectedNavOption,
+                subNavOption: selectedSubNavOption,
               );
             },
-            routes: [
-              GoRoute(
-                path: ':navOption/:subNavOption',
-                parentNavigatorKey: _rootNavigatorKey,
-                builder: (context, state) {
-                  String? selectedNavOption = state.params['navOption'];
-                  String? selectedSubNavOption = state.params['subNavOption'];
-                  return NestingExample(
-                    navOption: selectedNavOption,
-                    subNavOption: selectedSubNavOption,
-                  );
-                },
-              )
-            ],
           )
         ],
       ),
@@ -80,54 +69,52 @@ class AppRouter {
   }
 
   void _traverseGoRouteAndBuildDxNodeTree() {
-    List<RouteBase> testRoute = [
-      GoRoute(
-        path: 'a1',
-        builder: (context, state) => const Placeholder(),
+    DxShellConfig().createRoutes([
+      DxGoRoute(
+        path: '/explore',
         routes: [
-          GoRoute(
-            path: 'a1-b1',
-            builder: (context, state) => const Placeholder(),
-            routes: [
-              GoRoute(
-                path: 'a1-b1-c1',
-                builder: (context, state) => const Placeholder(),
+          DxShellRoute(
+            key: 'explore-shell-key',
+            nodes: [
+              DxShellNode(path: 'g-sec-explore'),
+              DxShellNode(
+                path: 't-bill-explore',
+                routes: [
+                  DxGoRoute(
+                    path: 'place-order',
+                  )
+                ],
               ),
-              GoRoute(
-                path: 'a1-b1-c2',
-                builder: (context, state) => const Placeholder(),
-              ),
+              DxShellNode(path: 'SDL-explore'),
             ],
           ),
-          GoRoute(
-            path: 'a1-b2',
-            builder: (context, state) => const Placeholder(),
-          ),
-          GoRoute(
-            path: 'a1-b3',
-            builder: (context, state) => const Placeholder(),
+          DxShellRoute(
+            key: 'tab-key',
+            nodes: [
+              DxShellNode(path: 'tab-1'),
+              DxShellNode(path: 'tab-2'),
+              DxShellNode(path: 'tab-3'),
+              DxShellNode(path: 'tab-4'),
+            ],
           ),
         ],
       ),
-      GoRoute(
-        path: 'a2',
-        builder: (context, state) => const Placeholder(),
+      DxGoRoute(
+        path: '/orders',
+        routes: [
+          DxGoRoute(path: 'g-sec-orders'),
+          DxGoRoute(path: 't-bill-orders'),
+          DxGoRoute(path: 'SDL-orders'),
+        ],
       ),
-      GoRoute(
-        path: 'a3',
-        builder: (context, state) => const Placeholder(),
+      DxGoRoute(
+        path: '/support',
+        routes: [
+          DxGoRoute(path: 'general-support'),
+          DxGoRoute(path: 'community-support'),
+          DxGoRoute(path: 'xyz-support'),
+        ],
       ),
-    ];
-    _printTree(testRoute, 0);
-  }
-
-  void _printTree(List<RouteBase> routes, int depth) {
-    for (int idx = 0; idx < routes.length; idx++) {
-      GoRoute route = routes[idx] as GoRoute;
-      print('${route.path} at depth : $depth');
-      if (route.routes.isNotEmpty) {
-        _printTree(route.routes, depth + 1);
-      }
-    }
+    ]);
   }
 }

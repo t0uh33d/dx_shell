@@ -25,6 +25,7 @@ class _NavMenuState extends State<NavMenu> {
       DxNode(name: 'option-3', widget: const Option3()),
     ];
     dxShellController = DxShellController(
+      key: 'key',
       nodes: nodes,
       activeNode: widget.selectedOption,
       autoFixBrokenURL: true,

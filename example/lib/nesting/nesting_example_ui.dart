@@ -20,6 +20,7 @@ class _NestingExampleState extends State<NestingExample> {
   @override
   void initState() {
     _navMenuController = DxShellController(
+      key: '',
       activeNode: widget.navOption,
       isRootShell: true,
       nodes: [
@@ -137,6 +138,7 @@ class _SubNavMenuState extends State<SubNavMenu>
   @override
   void initState() {
     _subNavController = DxShellController(
+      key: '',
       activeNode: widget.subNavSelectedOption,
       nodes: [
         DxNode(name: 'sub-nav-option-1'),

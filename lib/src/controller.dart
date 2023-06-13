@@ -24,6 +24,8 @@ class DxShellController extends ChangeNotifier {
   List<Widget?>? _nodeWidgets = [];
   final Set<String> _nodeNames = {};
 
+  final String key;
+
   /// the name of the current active node that might be received from the browser URL
   /// when the app is launched
   String? activeNode;
@@ -65,6 +67,7 @@ class DxShellController extends ChangeNotifier {
 
   DxShellController({
     required this.nodes,
+    required this.key,
     this.activeNode,
     this.isRootShell = false,
     this.autoFixBrokenURL = false,
@@ -120,6 +123,7 @@ class DxShellController extends ChangeNotifier {
     Curve curve = Curves.ease,
   }) {
     _switchTab(index);
+    activeNode = _nodeNames.elementAt(index);
     _tabController?.animateTo(currIndex);
     _pageController?.jumpToPage(currIndex);
   }
