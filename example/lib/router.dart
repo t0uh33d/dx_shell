@@ -26,6 +26,7 @@ class AppRouter {
   void init() {
     _rootNavigatorKey = GlobalKey<NavigatorState>();
     goRouter = GoRouter(
+      observers: [GoRouterObserver()],
       initialLocation: '/',
       navigatorKey: _rootNavigatorKey,
       routes: _routes,
@@ -43,7 +44,7 @@ class AppRouter {
         path: '/:selectedOption',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) {
-          String? selectedOption = state.params['selectedOption'];
+          String? selectedOption = state.pathParameters['selectedOption'];
           // String? windowType = state.params['windowType'];
           return NavMenu(
             selectedOption: selectedOption,
@@ -55,8 +56,9 @@ class AppRouter {
             path: 'nesting/:navOption/:subNavOption',
             parentNavigatorKey: _rootNavigatorKey,
             builder: (context, state) {
-              String? selectedNavOption = state.params['navOption'];
-              String? selectedSubNavOption = state.params['subNavOption'];
+              String? selectedNavOption = state.pathParameters['navOption'];
+              String? selectedSubNavOption =
+                  state.pathParameters['subNavOption'];
               return NestingExample(
                 navOption: selectedNavOption,
                 subNavOption: selectedSubNavOption,
@@ -71,7 +73,7 @@ class AppRouter {
   void _traverseGoRouteAndBuildDxNodeTree() {
     DxShellConfig().createRoutes([
       DxGoRoute(
-        path: '/explore',
+        path: 'explore',
         routes: [
           DxShellRoute(
             key: 'explore-shell-key',
@@ -100,7 +102,7 @@ class AppRouter {
         ],
       ),
       DxGoRoute(
-        path: '/orders',
+        path: 'orders',
         routes: [
           DxGoRoute(path: 'g-sec-orders'),
           DxGoRoute(path: 't-bill-orders'),
@@ -108,7 +110,7 @@ class AppRouter {
         ],
       ),
       DxGoRoute(
-        path: '/support',
+        path: 'support',
         routes: [
           DxGoRoute(path: 'general-support'),
           DxGoRoute(path: 'community-support'),
@@ -116,5 +118,27 @@ class AppRouter {
         ],
       ),
     ]);
+  }
+}
+
+class GoRouterObserver extends NavigatorObserver {
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    print('MyTest didPush: ${route.settings.name}');
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    print('MyTest didPop: $route');
+  }
+
+  @override
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    print('MyTest didRemove: $route');
+  }
+
+  @override
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    print('MyTest didReplace: $newRoute');
   }
 }
