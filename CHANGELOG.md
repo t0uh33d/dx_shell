@@ -27,3 +27,7 @@
 ## 1.0.8
 
 - silly bug fix -\_-
+
+## 1.0.9
+
+- added `onRouteChange` callback in the `DxShellController`ß

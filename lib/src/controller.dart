@@ -62,6 +62,7 @@ class DxShellController extends ChangeNotifier {
   final int? pathPosition;
   late TrieEngine? trieEngine;
   bool _containsNullWidget = false;
+  final void Function(String)? onRouteChange;
 
   DxShellController({
     required this.nodes,
@@ -70,6 +71,7 @@ class DxShellController extends ChangeNotifier {
     this.autoFixBrokenURL = false,
     this.useSmartFix = false,
     this.pathPosition,
+    this.onRouteChange,
   }) {
     _initialize();
   }
@@ -122,6 +124,10 @@ class DxShellController extends ChangeNotifier {
     _switchTab(index);
     _tabController?.animateTo(currIndex);
     _pageController?.jumpToPage(currIndex);
+
+    if (index == currIndex) {
+      onRouteChange?.call(_nodeNames.elementAt(currIndex));
+    }
   }
 
   void _switchTab(int index) {
