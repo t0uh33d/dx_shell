@@ -83,7 +83,7 @@ class DxShellController extends ChangeNotifier {
       _pageController = pageController;
 
   void _initialize() {
-    if (nodes.length < 2) throw 'Length should be greater or equal to 2';
+    // if (nodes.length < 2) throw 'Length should be greater or equal to 2';
     _separateNodeData();
     int idx = 0;
     List<String> arr = _nodeNames.toList();

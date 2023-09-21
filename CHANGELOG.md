@@ -30,4 +30,8 @@
 
 ## 1.0.9
 
-- added `onRouteChange` callback in the `DxShellController`ß
+- added `onRouteChange` callback in the `DxShellController`
+
+## 1.0.10
+
+- now works with a single node for shell observer
