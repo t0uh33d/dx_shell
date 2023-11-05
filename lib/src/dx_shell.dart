@@ -2,6 +2,7 @@ library dx_shell;
 
 import 'package:autocorrect_and_autocomplete_engine/autocorrect_and_autocomplete_engine.dart';
 import 'package:dx_shell/src/route_handler.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

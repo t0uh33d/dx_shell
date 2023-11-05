@@ -35,3 +35,7 @@
 ## 1.0.10
 
 - now works with a single node for shell observer
+
+## 1.0.11
+
+- Navigation bug fix on Android and iOS

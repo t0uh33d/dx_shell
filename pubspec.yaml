@@ -1,6 +1,6 @@
 name: dx_shell
 description: A Flutter package that facilitates easy and efficient navigation between pages on Flutter web, while also updating the URL and fixing any incorrect or mistyped search bar entries.
-version: 1.0.10
+version: 1.0.11
 homepage: https://github.com/t0uh33d/dx_shell
 
 environment:

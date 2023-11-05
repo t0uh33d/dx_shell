@@ -138,6 +138,7 @@ class DxShellController extends ChangeNotifier {
   }
 
   void _changeUrlBasedOnState() {
+    if (!kIsWeb) return;
     if (isRootShell) {
       RouteHandler().switchTabs(currIndex, _nodeNames, pathPosition);
       return;
